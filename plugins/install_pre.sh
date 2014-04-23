@@ -2,7 +2,6 @@
 
 echo 'Removing existing packages...'
 execRoot 'apt-get remove ffmpeg x264 libav-tools libvpx-dev libx264-dev yasm -y'
-checkStatus()
 
 # Clean old install
 if [ -d "$BUILD_DIR" ]; then

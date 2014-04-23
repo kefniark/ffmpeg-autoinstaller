@@ -17,35 +17,15 @@ BUILD_DIR="/usr/local/src/ffmpeg-build/"
 BIN_DIR="/usr/local/src/ffmpeg-build/bin/"
 TMP_DIR="/usr/local/src/ffmpeg-tmp/"
 
-function execRoot(){
-    if [ $EUID -e 0 ]; then
-        echo "execute as root user"
-        $1
-    else
-        echo "execute as sudo user"
-        sudo $1
-    fi
-}
-
-function loadPlugin(){
-    PLUGIN_FILE="plugins/$1"
-    echo "Loading Plugin : $PLUGIN_FILE"
-    source $PLUGIN_FILE
-}
-
-function checkStatus(){
-    if [ $? -gt 0 ]; then
-        echo 'Error/s encountered, exiting.'
-        exit $?
-    fi
-}
-
 set -e
 
 if [ "$(whoami)" != "root" ]; then
     echo "You must be a superuser. Type sudo first before the script."
     exit 1
 else
+    # Load all functions
+    source functions.sh
+
     # Pre compile
     loadPlugin "install_pre.sh"
 
