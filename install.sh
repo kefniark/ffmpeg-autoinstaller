@@ -17,6 +17,16 @@ BUILD_DIR="/usr/local/src/ffmpeg-build/"
 BIN_DIR="/usr/local/src/ffmpeg-build/bin/"
 TMP_DIR="/usr/local/src/ffmpeg-tmp/"
 
+execRoot(){
+    if [ $EUID -e 0 ]; then
+        echo "execute as root user"
+        $?
+    else
+        echo "execute as sudo user
+        sudo $?
+    fi
+}
+
 checkStatus(){
     if [ $? -gt 0 ]; then
         echo 'Error/s encountered, exiting.'

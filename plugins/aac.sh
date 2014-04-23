@@ -8,5 +8,5 @@ cd fdk-aac
 autoreconf -fiv
 ./configure --prefix="$BUILD_DIR" --disable-shared
 make
-sudo checkinstall --pkgname=fdk-aac --pkgversion="$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default
+execRoot('checkinstall --pkgname=fdk-aac --pkgversion="$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default')
 checkStatus()

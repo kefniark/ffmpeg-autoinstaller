@@ -7,5 +7,5 @@ git clone --depth 1 git://git.videolan.org/x264.git || ( echo 'Check internet co
 cd x264
 ./configure --prefix="$BUILD_DIR" --bindir="$BIN_DIR" --enable-static
 make
-sudo checkinstall --pkgname=x264 --pkgversion="3:$(./version.sh | awk -F'[" ]' '/POINT/{print $4"+git"$5}')" --deldoc=yes --fstrans=no --default
+execRoot('checkinstall --pkgname=x264 --pkgversion="3:$(./version.sh | awk -F'[" ]' '/POINT/{print $4"+git"$5}')" --deldoc=yes --fstrans=no --default')
 checkStatus()
