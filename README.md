@@ -3,7 +3,12 @@ ffmpeg-autoinstaller
 
 A simple autoinstaller of ffmpeg for debian/ubuntu
 
-You just have to make it executable
+How to get it
+
+    git-clone https://github.com/kefniark/ffmpeg-autoinstaller.git
+    cd ffmpeg-autoinstaller
+
+To make it executable
 
     +x install.sh
 

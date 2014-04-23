@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 # Shell script for automated installation of FFmpeg from source.
 # This script is based on the autoInstallFFmpeg-1.1 from pantuts (http://pantuts.com/2013/04/15/installffmpeg-sh-to-automate-ffmpeg-installation-from-source/)
@@ -12,6 +12,12 @@
 
 set -e
 
+# Setup folders
+CURRENT_DIR=`dirname $0`
+BUILD_DIR="/usr/local/src/ffmpeg-build/"
+BIN_DIR="/usr/local/src/ffmpeg-build/bin/"
+TMP_DIR="/usr/local/src/ffmpeg-tmp/"
+
 checkStatus(){
     if [ $? -gt 0 ]; then
         echo 'Error/s encountered, exiting.'
@@ -23,103 +29,31 @@ if [ "$(whoami)" != "root" ]; then
     echo "You must be a superuser. Type sudo first before the script."
     exit 1
 else
-    echo 'Removing existing packages...'
-    sudo apt-get remove ffmpeg x264 libav-tools libvpx-dev libx264-dev yasm -y
-    checkStatus()
+    # Pre compile
+    source "$CURRENT_DIR/install_pre.sh"
 
-    echo 'Updating sources...'
-    sleep 1
-    sudo apt-get update
-    checkStatus()
+    # install : Dependencies (
+    source "$CURRENT_DIR/dependencies.sh"
 
-    echo 'Installing dependencies. Please wait...'
-    sleep 2
-    sudo apt-get -y install autoconf automake build-essential checkinstall git libass-dev libfaac-dev \
-        libgpac-dev libjack-jackd2-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libopus-dev \
-        librtmp-dev libsdl1.2-dev libspeex-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev \
-        libx11-dev libxext-dev libxfixes-dev pkg-config texi2html zlib1g-dev -y
-    checkStatus()
+    # install : Yasm
+    source "$CURRENT_DIR/yasm.sh"
 
-    echo 'Yasm configuration and installation...'
-    sleep 2
+    # install : X264
+    source "$CURRENT_DIR/x264.sh"
 
-    buildDIR="/usr/local/src/ffmpeg-build/"
-    tmpDIR="/usr/local/src/ffmpeg-tmp/"
+    # install : AAC
+    source "$CURRENT_DIR/aac.sh"
 
-    # Clean old install
-    if [ -d "$buildDIR" ]; then
-        echo "Clean Folder $buildDIR"
-        rm -R $buildDIR
-    fi
-    if [ -d "$tmpDIR" ]; then
-        echo "Clean Folder $tmpDIR"
-        rm -R $tmpDIR
-    fi
-    mkdir $tmpDIR
-    cd $tmpDIR
+    # install : VPX
+    source "$CURRENT_DIR/vpx.sh"
 
-    echo 'Downloading yasm'
-    wget http://www.tortall.net/projects/yasm/releases/yasm-1.2.0.tar.gz || ( echo 'Check internet connection...' && exit 1 )
+    # install : FFMPEG
+    source "$CURRENT_DIR/ffmpeg.sh"
 
-    tar xvzf yasm-1.2.0.tar.gz
-    cd yasm-1.2.0
-    ./configure --prefix="$buildDIR" --bindir="$HOME/bin"
-    make
-    sudo checkinstall --pkgname=yasm --pkgversion="1.2.0" --backup=no --deldoc=yes --fstrans=no --default
-    checkStatus()
+    # Post compile
+    source "$CURRENT_DIR/install_post.sh"
 
-    cd $tmpDIR
-    echo 'x264 installation...'
-    sleep 2
-    git clone --depth 1 git://git.videolan.org/x264.git || ( echo 'Check internet connection...' && exit 1 )
-    cd x264
-    ./configure --prefix="$buildDIR" --bindir="$HOME/bin" --enable-static
-    make
-    sudo checkinstall --pkgname=x264 --pkgversion="3:$(./version.sh | awk -F'[" ]' '/POINT/{print $4"+git"$5}')" --deldoc=yes --fstrans=no --default
-    checkStatus()
-
-    cd $tmpDIR
-    echo 'fdk-aac installation...'
-    sleep 2
-    git clone --depth 1 git://github.com/mstorsjo/fdk-aac.git || ( echo 'Check internet connection...' && exit 1 )
-    cd fdk-aac
-    autoreconf -fiv
-    ./configure --prefix="$buildDIR" --disable-shared
-    make
-    sudo checkinstall --pkgname=fdk-aac --pkgversion="$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default
-    checkStatus()
-
-    cd $tmpDIR
-    echo 'libvpx installation...'
-    sleep 2
-    git clone --depth 1 http://git.chromium.org/webm/libvpx.git || ( echo 'Check internet connection...' && exit 1 )
-    cd libvpx
-    ./configure --prefix="$buildDIR" --disable-examples
-    make
-    sudo checkinstall --pkgname=libvpx --pkgversion="1:$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default
-    checkStatus()
-
-    cd $tmpDIR
-    echo 'Final installation for ffmpeg...'
-    sleep 2
-    git clone --depth 1 git://source.ffmpeg.org/ffmpeg || ( echo 'Check internet connection...' && exit 1 )
-    cd ffmpeg
-    PKG_CONFIG_PATH="$buildDIR/lib/pkgconfig"
-    ./configure --prefix="$buildDIR" \
-    --extra-cflags="-I$buildDIR/include" --extra-ldflags="-L$buildDIR/lib" \
-    --bindir="$HOME/bin" --extra-libs="-ldl" --enable-gpl --enable-libass --enable-libfaac \
-    --enable-libfdk-aac --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb \
-    --enable-libspeex --enable-librtmp --enable-libtheora --enable-libvorbis --enable-libvpx \
-    --enable-x11grab --enable-libx264 --enable-nonfree --enable-version3 --enable-libopus
-    make
-    sudo checkinstall --pkgname=ffmpeg --pkgversion="7:$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default
-    checkStatus()
-    echo
-    sleep 1
-
-    echo 'Removing tmp build files...'
-    sleep 1
-    sudo rm -rf $tmpDIR
+    # Finish
     echo 'FFmpeg installation finished successfully! Congrats!'
     exit 0
 fi
