@@ -19,7 +19,7 @@ function loadPlugin(){
 # Function to execute root commands (with or without sudo)
 function execRoot(){
     CMD=$1
-    if [ $EUID -eq 0 ]; then
+    if [ $IS_ROOT -eq 1 ]; then
         echo " > Execute root user : '$1'"
         $CMD
     else
