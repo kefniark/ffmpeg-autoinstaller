@@ -7,5 +7,5 @@ tar xvzf yasm-1.2.0.tar.gz
 cd yasm-1.2.0
 ./configure --prefix="$BUILD_DIR" --bindir="$BIN_DIR"
 make
-execRoot 'checkinstall --pkgname=yasm --pkgversion="1.2.0" --backup=no --deldoc=yes --fstrans=no --default'
+execRoot 'make install'
 checkStatus
