@@ -9,4 +9,4 @@ autoreconf -fiv
 ./configure --prefix="$BUILD_DIR" --disable-shared
 make
 execRoot 'checkinstall --pkgname=fdk-aac --pkgversion="$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default'
-checkStatus()
+checkStatus

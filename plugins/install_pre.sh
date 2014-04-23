@@ -2,9 +2,9 @@
 
 echo 'Removing existing packages...'
 if [ $IS_ROOT -eq 1 ]; then
-    apt-get remove ffmpeg x264 libav-tools libvpx-dev libx264-dev yasm -y
+    apt-get remove ffmpeg x264 libav-tools libvpx-dev libx264-dev yasm -y || true
 else
-    sudo apt-get remove ffmpeg x264 libav-tools libvpx-dev libx264-dev yasm -y
+    sudo apt-get remove ffmpeg x264 libav-tools libvpx-dev libx264-dev yasm -y || true
 fi
 
 # Clean old install

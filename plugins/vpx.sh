@@ -8,4 +8,4 @@ cd libvpx
 ./configure --prefix="$BUILD_DIR" --disable-examples
 make
 execRoot 'checkinstall --pkgname=libvpx --pkgversion="1:$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default'
-checkStatus()
+checkStatus

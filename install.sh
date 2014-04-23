@@ -12,11 +12,16 @@
 
 # Setup parameters
 CURRENT_DIR=`dirname $0`
+echo $CURRENT_DIR
+if [ $CURRENT_DIR = '.' ]; then
+    CURRENT_DIR=`pwd`
+    echo $CURRENT_DIR
+fi
 PLUGIN_DIR="$CURRENT_DIR/plugins"
 BUILD_DIR="/usr/local/src/ffmpeg-build/"
 BIN_DIR="/usr/local/src/ffmpeg-build/bin/"
 TMP_DIR="/usr/local/src/ffmpeg-tmp/"
-if [$EUID -eq 0 ]; then
+if [ $EUID -eq 0 ]; then
     IS_ROOT=1
 else
     IS_ROOT=0

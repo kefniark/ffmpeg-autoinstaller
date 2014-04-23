@@ -11,7 +11,7 @@ function checkStatus(){
 # Function to load installer plugins
 function loadPlugin(){
     cd $CURRENT_DIR
-    PLUGIN_FILE="plugins/$1"
+    PLUGIN_FILE="$CURRENT_DIR/plugins/$1"
     echo " -- Loading Plugin : $PLUGIN_FILE -- "
     source $PLUGIN_FILE
 }

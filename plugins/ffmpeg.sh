@@ -14,5 +14,5 @@ PKG_CONFIG_PATH="$BUILD_DIR/lib/pkgconfig"
 --enable-x11grab --enable-libx264 --enable-nonfree --enable-version3 --enable-libopus
 make
 execRoot 'checkinstall --pkgname=ffmpeg --pkgversion="7:$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default'
-checkStatus()
+checkStatus
 echo

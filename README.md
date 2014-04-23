@@ -16,3 +16,11 @@ and run it
 
     ./install.sh
 
+If you don't have all apt depedencies (libfaac-dev, libgpac-dev, ...) you can add the multimedia repository
+
+    apt-get install deb-multimedia-keyring
+    echo "deb http://www.deb-multimedia.org wheezy main non-free" >> /etc/apt/sources.list.d/multimedia.list
+    echo "deb-src http://www.deb-multimedia.org wheezy main non-free" >> /etc/apt/sources.list.d/multimedia.list
+    apt-get update
+
+For more informations : http://www.deb-multimedia.org/

@@ -8,4 +8,4 @@ cd x264
 ./configure --prefix="$BUILD_DIR" --bindir="$BIN_DIR" --enable-static
 make
 execRoot 'checkinstall --pkgname=x264 --pkgversion="3:$(./version.sh | awk -F'[" ]' '/POINT/{print $4"+git"$5}')" --deldoc=yes --fstrans=no --default'
-checkStatus()
+checkStatus
