@@ -1,5 +1,5 @@
-#!/bin/sh
+#!/bin/bash
 
 echo 'Removing tmp build files...'
 sleep 1
-execRoot('rm -rf $TMP_DIR')
+execRoot 'rm -rf $TMP_DIR'
