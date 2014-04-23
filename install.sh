@@ -10,10 +10,9 @@
 # Author will not be held liable for any damage that may occur.
 #
 
-set -e
-
 # Setup folders
 CURRENT_DIR=`dirname $0`
+PLUGIN_DIR="$CURRENT_DIR/plugins"
 BUILD_DIR="/usr/local/src/ffmpeg-build/"
 BIN_DIR="/usr/local/src/ffmpeg-build/bin/"
 TMP_DIR="/usr/local/src/ffmpeg-tmp/"
@@ -25,33 +24,35 @@ checkStatus(){
     fi
 }
 
+set -e
+
 if [ "$(whoami)" != "root" ]; then
     echo "You must be a superuser. Type sudo first before the script."
     exit 1
 else
     # Pre compile
-    source "$CURRENT_DIR/install_pre.sh"
+    source "$PLUGIN_DIR/install_pre.sh"
 
     # install : Dependencies (
-    source "$CURRENT_DIR/dependencies.sh"
+    source "$PLUGIN_DIR/dependencies.sh"
 
     # install : Yasm
-    source "$CURRENT_DIR/yasm.sh"
+    source "$PLUGIN_DIR/yasm.sh"
 
     # install : X264
-    source "$CURRENT_DIR/x264.sh"
+    source "$PLUGIN_DIR/x264.sh"
 
     # install : AAC
-    source "$CURRENT_DIR/aac.sh"
+    source "$PLUGIN_DIR/aac.sh"
 
     # install : VPX
-    source "$CURRENT_DIR/vpx.sh"
+    source "$PLUGIN_DIR/vpx.sh"
 
     # install : FFMPEG
-    source "$CURRENT_DIR/ffmpeg.sh"
+    source "$PLUGIN_DIR/ffmpeg.sh"
 
     # Post compile
-    source "$CURRENT_DIR/install_post.sh"
+    source "$PLUGIN_DIR/install_post.sh"
 
     # Finish
     echo 'FFmpeg installation finished successfully! Congrats!'
