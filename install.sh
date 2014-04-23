@@ -22,9 +22,14 @@ execRoot(){
         echo "execute as root user"
         $?
     else
-        echo "execute as sudo user
+        echo "execute as sudo user"
         sudo $?
     fi
+}
+
+loadPlugin(){
+    cd $PLUGIN_DIR
+    source $?
 }
 
 checkStatus(){
@@ -41,28 +46,28 @@ if [ "$(whoami)" != "root" ]; then
     exit 1
 else
     # Pre compile
-    source "$PLUGIN_DIR/install_pre.sh"
+    loadPlugin("install_pre.sh")
 
-    # install : Dependencies (
-    source "$PLUGIN_DIR/dependencies.sh"
+    # install : Dependencies
+    loadPlugin("dependencies.sh")
 
     # install : Yasm
-    source "$PLUGIN_DIR/yasm.sh"
+    loadPlugin("yasm.sh")
 
     # install : X264
-    source "$PLUGIN_DIR/x264.sh"
+    loadPlugin("x264.sh")
 
     # install : AAC
-    source "$PLUGIN_DIR/aac.sh"
+    loadPlugin("aac.sh")
 
     # install : VPX
-    source "$PLUGIN_DIR/vpx.sh"
+    loadPlugin("vpx.sh")
 
     # install : FFMPEG
-    source "$PLUGIN_DIR/ffmpeg.sh"
+    loadPlugin("ffmpeg.sh")
 
     # Post compile
-    source "$PLUGIN_DIR/install_post.sh"
+    loadPlugin("install_post.sh")
 
     # Finish
     echo 'FFmpeg installation finished successfully! Congrats!'
