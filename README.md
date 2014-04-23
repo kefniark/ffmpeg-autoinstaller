@@ -2,7 +2,9 @@ ffmpeg-autoinstaller
 ====================
 
 A simple autoinstaller of ffmpeg for debian/ubuntu
-
+It was test on :
+   debian squeeze
+   debian wheezy
 
 How to get it
 

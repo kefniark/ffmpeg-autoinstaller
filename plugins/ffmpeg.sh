@@ -13,6 +13,10 @@ PKG_CONFIG_PATH="$BUILD_DIR/lib/pkgconfig"
 --enable-libspeex --enable-librtmp --enable-libtheora --enable-libvorbis --enable-libvpx \
 --enable-x11grab --enable-libx264 --enable-nonfree --enable-version3 --enable-libopus
 make
-execRoot 'checkinstall --pkgname=ffmpeg --pkgversion="7:$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default'
+if [ $IS_ROOT -eq 1 ]; then
+    checkinstall --pkgname=ffmpeg --pkgversion="7:$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default
+else
+    sudo checkinstall --pkgname=ffmpeg --pkgversion="7:$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default
+fi
 checkStatus
 echo

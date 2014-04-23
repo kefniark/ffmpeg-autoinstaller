@@ -7,5 +7,9 @@ git clone --depth 1 http://git.chromium.org/webm/libvpx.git || ( echo 'Check int
 cd libvpx
 ./configure --prefix="$BUILD_DIR" --disable-examples
 make
-execRoot 'checkinstall --pkgname=libvpx --pkgversion="1:$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default'
+if [ $IS_ROOT -eq 1 ]; then
+    checkinstall --pkgname=libvpx --pkgversion="1:$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default
+else
+    sudo checkinstall --pkgname=libvpx --pkgversion="1:$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default
+fi
 checkStatus

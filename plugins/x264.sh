@@ -5,7 +5,11 @@ echo 'x264 installation...'
 sleep 2
 git clone --depth 1 git://git.videolan.org/x264.git || ( echo 'Check internet connection...' && exit 1 )
 cd x264
-./configure --prefix="$BUILD_DIR" --bindir="$BIN_DIR" --enable-static --disable-asm
+./configure --prefix="$BUILD_DIR" --bindir="$BIN_DIR" --enable-static
 make
-execRoot 'checkinstall --pkgname=x264 --pkgversion="3:$(./version.sh | awk -F\'[" ]\' \'/POINT/{print $4"+git"$5}\')" --deldoc=yes --fstrans=no --default'
+if [ $IS_ROOT -eq 1 ]; then
+    checkinstall --pkgname=x264 --pkgversion="1:$(date +%Y%m%d%H%M)-git" --deldoc=yes --fstrans=no --default
+else
+    sudo checkinstall --pkgname=x264 --pkgversion="1:$(date +%Y%m%d%H%M)-git" --deldoc=yes --fstrans=no --default
+fi
 checkStatus
