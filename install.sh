@@ -19,7 +19,7 @@ if [ $CURRENT_DIR = '.' ]; then
 fi
 PLUGIN_DIR="$CURRENT_DIR/plugins"
 BUILD_DIR="/usr/local/src/ffmpeg-build/"
-BIN_DIR="/usr/local/src/ffmpeg-build/bin/"
+BIN_DIR="$HOME/bin/"
 TMP_DIR="/usr/local/src/ffmpeg-tmp/"
 if [ $EUID -eq 0 ]; then
     IS_ROOT=1

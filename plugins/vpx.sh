@@ -2,8 +2,8 @@
 
 cd $TMP_DIR
 echo 'libvpx installation...'
-sleep 2
-git clone --depth 1 http://git.chromium.org/webm/libvpx.git || ( echo 'Check internet connection...' && exit 1 )
+sleep 1
+git clone http://git.chromium.org/webm/libvpx.git || ( echo 'Check internet connection...' && exit 1 )
 cd libvpx
 ./configure --prefix="$BUILD_DIR" --disable-examples
 make

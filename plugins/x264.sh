@@ -2,7 +2,7 @@
 
 cd $TMP_DIR
 echo 'x264 installation...'
-sleep 2
+sleep 1
 git clone --depth 1 git://git.videolan.org/x264.git || ( echo 'Check internet connection...' && exit 1 )
 cd x264
 ./configure --prefix="$BUILD_DIR" --bindir="$BIN_DIR" --enable-static
